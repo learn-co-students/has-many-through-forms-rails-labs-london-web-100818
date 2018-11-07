@@ -1,1 +1,12 @@
-
+<h1><%=@user.username%></h1>
+<hr>
+<%if @user.posts.length > 0%>
+    <h3>Your posts are:</h3>
+    <ul>
+    <%@user.posts.each do |p|%>
+        <li>
+            <%=link_to p.title, p%>
+        </li>
+    <%end%>
+    </ul>
+<%end%>
