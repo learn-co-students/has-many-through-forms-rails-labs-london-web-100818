@@ -1,1 +1,59 @@
+<h2><%= @post.title %></h2>
 
+<ul>
+  <% @post.categories.each do |c| %>
+    <li>
+      <%= c.name %>
+    </li>
+  <% end %>
+</ul>
+<p><%= @post.content %></p>
+
+<h3>Comments: </h3>
+
+<% @post.comments.each do |c| %>
+  <%= c.user.username %> says: <%= c.content %>
+  <br />
+<% end %>
+
+<br />
+<br />
+
+<%= form_for @comment do |f| %>
+  <%= f.label :content, "Write a comment:" %>
+  <br />
+  <%= f.text_field :content %>
+  
+  <br />
+  <br />
+  
+  <%= f.label :user_id, "Select a user:"%>
+  <br />
+  <%= f.collection_select :user_id, User.all, :id, :username %>
+  
+  <br />
+  <br />
+  
+  <%= f.fields_for :user, @user do |u| %>
+    <%= u.label :username, "Or, create a user:" %>
+    <br />
+    <%= u.text_field :username %>
+  <% end %>
+
+  <br />
+  <br />
+
+  <%= f.hidden_field :post_id %>
+  <%= f.submit "Create Comment" %>
+<% end %>
+
+<h3>Commenter on your post</h3>
+<p>eg. RealBigFish says: great post!</p>
+
+<ul>
+  <% @unique_commenters.each do |u| %>
+    <li>
+      <%= link_to u.username, user_path(u) %>
+    </li>
+  <% end %>
+</ul>
